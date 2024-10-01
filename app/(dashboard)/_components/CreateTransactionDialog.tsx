@@ -215,12 +215,12 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormControl>
+                    {/* <FormControl>
                       <CategoryPicker
                         type={type}
                         onChange={handleCategoryChange}
                       />
-                    </FormControl>
+                    </FormControl> */}
                     <FormDescription>
                       Select a date for this transaction
                     </FormDescription>

@@ -30,4 +30,5 @@ export async function GET(request:Request) {
             name:"asc"
         }
     })
+    return Response.json(categories)
 }

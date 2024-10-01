@@ -66,7 +66,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
         type,
       });
       toast.success(`Category ${data.name} created successfuly`, {
-        id: "creat e-category",
+        id: "create-category",
       });
       successCallback(data)
       await queryClient.invalidateQueries({
@@ -160,7 +160,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
                             </div>
                           ) : (
                             <div className="flex flex-col items-center gap-2">
-                              <CircleOff className="h-[48px] w-[]48px" />
+                              <CircleOff className="h-[48px] w-[48px]" />
                               <p className="text-xs text-muted-foreground">
                                 Click to select
                               </p>

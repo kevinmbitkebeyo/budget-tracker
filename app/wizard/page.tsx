@@ -18,15 +18,21 @@ import { currentUser } from '@clerk/nextjs/server'
 import React from "react";
 
 const page =  async () => {
-  const user = await currentUser();
-  if (!user) {
-    redirect("/sign-in");
+  try {
+    const user = await currentUser();
+    console.log("user "+user);
+    
+    if (!user) {
+      redirect("/sign-in");
+    }
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    // Optionnel : Vous pouvez rediriger ou afficher une page d'erreur
   }
   return (
     <div className="container flex max-w-2xl flex-col items-center justify-between gap-4">
       <div>
         <h1 className="text-center text-3xl">
-          Welcome, <span className="ml-2 font-bold">{user.firstName}</span>
         </h1>
         <h2 className="mt-4 text-center text-base text-muted-foreground">
           Let &apos;s get started by setting up your currency
@@ -48,7 +54,7 @@ const page =  async () => {
         </CardContent>
       </Card>
       <Separator />
-      <Button className="w-full" asChild>
+      <Button className="w-full">
         <Link href={"/"}>I&apos;m done! Take me to the dashboard</Link>
       </Button>
       <div className="mt-8">

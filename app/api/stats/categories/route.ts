@@ -3,7 +3,7 @@ import { OverviewQuerySchema } from "@/schema/overview";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-async function GET(request: Request) {
+export async function GET(request: Request) {
   const user = await currentUser();
   if (!user) {
     redirect("/sign-in");

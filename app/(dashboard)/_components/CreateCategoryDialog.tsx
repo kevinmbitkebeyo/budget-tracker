@@ -6,7 +6,7 @@ import {
   CreateCategorySchema,
   CreateCategorySchemaType,
 } from "@/schema/categories";
-import React, { useCallback, useState } from "react";
+import React, { ReactNode, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Dialog,
@@ -44,10 +44,11 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 interface Props {
   type: TransactionType;
-  successCallback: (category:Category)=>void
+  successCallback: (category: Category) => void;
+  trigger?: ReactNode;
 }
 
-const CreateCategoryDialog = ({ type, successCallback }: Props) => {
+const CreateCategoryDialog = ({ type, successCallback, trigger }: Props) => {
   const [open, setOpen] = useState(false);
   const form = useForm<CreateCategorySchemaType>({
     resolver: zodResolver(CreateCategorySchema),
@@ -56,7 +57,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
     },
   });
   const queryClient = useQueryClient();
-  const theme = useTheme()
+  const theme = useTheme();
   const { mutate, isPending } = useMutation({
     mutationFn: CreateCategory,
     onSuccess: async (data: Category) => {
@@ -68,7 +69,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
       toast.success(`Category ${data.name} created successfuly`, {
         id: "create-category",
       });
-      successCallback(data)
+      successCallback(data);
       await queryClient.invalidateQueries({
         queryKey: ["categories"],
       });
@@ -93,13 +94,17 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={"ghost"}
-          className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
-        >
-          <PlusSquare className="mr-2 h-4 w-4" />
-          Create new
-        </Button>
+        {trigger ? (
+          trigger
+        ) : (
+          <Button
+            variant={"ghost"}
+            className="flex border-separate items-center justify-start rounded-none border-b px-3 py-3 text-muted-foreground"
+          >
+            <PlusSquare className="mr-2 h-4 w-4" />
+            Create new
+          </Button> 
+        )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -130,7 +135,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
                     <Input placeholder="Category" {...field} />
                   </FormControl>
                   <FormDescription>
-                   This is how your category will appear in the app
+                    This is how your category will appear in the app
                   </FormDescription>
                 </FormItem>
               )}
@@ -170,7 +175,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-full">
                         <Picker
-                        theme={theme.resolvedTheme}
+                          theme={theme.resolvedTheme}
                           data={data}
                           onEmojiSelect={(emoji: { native: string }) => {
                             field.onChange(emoji.native);

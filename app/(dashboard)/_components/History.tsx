@@ -72,7 +72,7 @@ const History = ({ userSettings }: { userSettings: UserSettings }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <SkeletonWrapper isLoading={historyDataQuery.isFetching}>
+          <SkeletonWrapper isLoading={historyDataQuery.isLoading}>
             {dataAvailable ? (
               <ResponsiveContainer width={"100%"} height={300}>
                 <BarChart
@@ -80,82 +80,7 @@ const History = ({ userSettings }: { userSettings: UserSettings }) => {
                   data={historyDataQuery.data}
                   barCategoryGap={5}
                 >
-                  <defs>
-                    <linearGradient id="incomeBar" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset={"0"}
-                        stopColor="#10b981"
-                        stopOpacity={"1"}
-                      />
-                      <stop
-                        offset={"1"}
-                        stopColor="#10b981"
-                        stopOpacity={"0"}
-                      />
-                    </linearGradient>
-                    <linearGradient id="expenseBar" x1="0" y1="0" x2="0" y2="1">
-                      <stop
-                        offset={"0"}
-                        stopColor="#ef4444"
-                        stopOpacity={"1"}
-                      />
-                      <stop
-                        offset={"1"}
-                        stopColor="#ef4444"
-                        stopOpacity={"0"}
-                      />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid
-                    strokeDasharray="5 5"
-                    strokeOpacity={"0.2"}
-                    vertical={false}
-                  />
-                  <XAxis
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    dataKey={(data) => {
-                      const { year, month, day } = data;
-                      const date = new Date(year, month, day || 1);
-                      if (timeframe === "year") {
-                        return date.toLocaleDateString("default", {
-                          month: "long",
-                        });
-                      }
-                      return date.toLocaleDateString("default", {
-                        day: "2-digit",
-                      });
-                    }}
-                    padding={{ left: 5, right: 5 }}
-                  />
-                  <YAxis
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Bar
-                    dataKey={"income"}
-                    fill="url(#incomeBar)"
-                    label="Income"
-                    radius={4}
-                    className="cursor-pointer"
-                  />
-                  <Bar
-                    dataKey={"expense"}
-                    fill="url(#expenseBar)"
-                    label="Expense"
-                    radius={4}
-                    className="cursor-pointer"
-                  />
-                  <Tooltip
-                    cursor={{ opacity: 0.1 }}
-                    content={(props) => (
-                      <CustomTooltip formatter={formatter} {...props} />
-                    )}
-                  />
+                  
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -174,7 +99,6 @@ const History = ({ userSettings }: { userSettings: UserSettings }) => {
 };
 
 function CustomTooltip({ active, payload, formatter }: any) {
-  
   if (!active || !payload || payload.length === 0) return null;
 
   const data = payload[0].payload;

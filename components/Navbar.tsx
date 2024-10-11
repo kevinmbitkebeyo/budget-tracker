@@ -61,9 +61,9 @@ function MobileNavbar() {
       <nav className="container flex items-center justify-between px-8">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger>
-            <Button variant="ghost" size={"icon"}>
+            {/* <Button variant="ghost" size={"icon"}>
               <Menu />
-            </Button>
+            </Button> */}
           </SheetTrigger>
           <SheetContent className="w-[400px] sm:w-[540px]" side={"left"}>
             <Logo />
@@ -84,7 +84,6 @@ function MobileNavbar() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeSwitcherBtn />
-          <UserButton afterSignOutUrl="sign-in" />
         </div>
       </nav>
     </div>

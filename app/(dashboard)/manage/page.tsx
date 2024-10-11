@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TransactionType } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import { PlusSquare, TrashIcon, TrendingDown, TrendingUp } from "lucide-react";
 import React from "react";
 import CreateCategoryDialog from "../_components/CreateCategoryDialog";
@@ -17,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Category } from "@prisma/client";
 import { cn } from "@/lib/utils";
 import DeleteCategoryDialog from "../_components/deleteCategoryDialog";
+import { useQuery } from "@tanstack/react-query";
 
 const page = () => {
   return (
@@ -55,9 +55,9 @@ export default page;
 
 function CategoryList({ type }: { type: TransactionType }) {
   const categoryQuery = useQuery({
-    queryKey: ["categories", type],
+    queryKey: ["categories"],
     queryFn: () =>
-      fetch(`/api/cateories?type=${type}`).then((res) => res.json()),
+      fetch(`/api/categories?type=${type}`).then((res) => res.json()),
   });
   const dataAvailable = categoryQuery.data && categoryQuery.data.length > 0;
 
